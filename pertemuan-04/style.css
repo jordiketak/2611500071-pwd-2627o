@@ -130,3 +130,51 @@ section {
     margin: 8px 6px 0 0;
     border: 1px solid #003366;
 }
+
+#about {
+    margin: 0;
+}
+
+#about h2 {
+    margin-top: 0;
+}
+
+#about p {
+    line-height: 1.5;
+}
+
+#contact {
+    margin: 0;
+}
+
+#contact h2 {
+    margin-top: 0;
+}
+
+.input-form {
+    width: 100%;
+    max-width: 100%;
+}
+
+#contact textarea {
+    min-height: 80px;
+    resize: vertical;
+}
+
+#contact button {
+    cursor: pointer;
+}
+
+/* Footer */
+footer {
+    background-color: #003366;
+    color: #ffffff;
+    text-align: center;
+    padding: 14px 20px;
+    margin-top: 20px;
+    border: 1px solid #00264d;
+}
+
+footer p {
+    margin: 0;
+}
