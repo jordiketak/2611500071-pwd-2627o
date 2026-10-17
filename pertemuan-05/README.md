@@ -27,9 +27,10 @@ Dokumentasi pengembangan halaman web pada P5, meliputi JavaScript, DOM, event li
 - Validasi berhasil: seluruh isian diisi sesuai aturan lalu klik Kirim. Hasil aktual: pesan "Form berhasil divalidasi." muncul berwarna hijau. Pesan ini hanya menyatakan validasi sisi klien lolos, data tidak dikirim ke server.
 - Event input: mengubah salah satu isian setelah pesan hijau muncul. Hasil aktual: pesan hilang.
 - Event reset: menekan tombol Batal setelah pesan merah muncul. Hasil aktual: pesan hilang.
-- Belum diuji: pesan kosong, pesan yang hanya berisi spasi, batas 300 karakter pada textarea, dan nilai desimal pada semester.
-
+- Validasi pesan: kolom pesan dikosongkan. Hasil aktual: pesan "Pesan harus diisi." muncul.
+- Belum diuji: pesan yang hanya berisi spasi, batas 300 karakter pada textarea, dan nilai desimal pada semester.
 ## Riwayat Pengembangan
 
 - Siapkan baseline P5 dan hubungkan JavaScript eksternal: menyalin baseline P4, membuat script.js, dan menguji koneksinya lewat Console.
 - Tambah hamburger menu responsif: menambahkan tombol navigasi, CSS, dan event click, lalu diuji pada lebar 400 dan 1000.
+- Tambah validasi formulir dan umpan balik P5: mengganti formulir, menulis validasi submit, pesan gagal dan berhasil, serta event input dan reset. Diuji di Edge dan hasilnya dicatat di bagian Pengujian.
