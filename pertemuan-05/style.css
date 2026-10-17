@@ -204,7 +204,43 @@ footer p {
     margin: 0;
 }
 
+/* Navigasi responsif (layar kecil) */
+.header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#navMenu {
+    display: none;
+}
+
+#navMenu.nav-open {
+    display: flex;
+    flex-direction: column;
+    margin-top: 16px;
+}
+
+.nav-toggle {
+    display: block;
+    border: none;
+    background: transparent;
+    color: #ffffff;
+    font-size: 1.8rem;
+    line-height: 1;
+    cursor: pointer;
+}
+
 @media (min-width: 768px) {
+    #navMenu {
+        display: flex;
+        flex-direction: row;
+    }
+
+    .nav-toggle {
+        display: none;
+    }
+
     main {
         grid-template-columns: 1fr 1fr;
     }
