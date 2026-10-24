@@ -11,6 +11,7 @@ Dokumentasi pengembangan halaman web pada P6, meliputi PHP dasar, variabel, kons
 - Variabel dan konstanta: menambahkan blok PHP di awal index.php berisi variabel (nim, namaMahasiswa, programStudi, tahunAkademik, semester, ipk, statusAktif, catatanTambahan) dan konstanta (NAMA_MATA_KULIAH, PROFIL_GITHUB). Nilai ipk dan semester adalah data contoh dari modul, bukan data asli.
 - Konten dinamis: paragraf sapaan di bagian Selamat Datang menampilkan nama, nama mata kuliah, dan tahun akademik lewat PHP. Tautan GitHub di bagian Kontak memakai konstanta PROFIL_GITHUB.
 - Operator: menambahkan perhitungan sisa semester (operator aritmetika), pemeriksaan rentang semester (operator perbandingan dan logika), dan status semester (operator ternary). Hasilnya ditampilkan di bagian Profil Singkat.
+- Percabangan: menambahkan if-elseif-else untuk keterangan semester, operator ternary untuk nama program studi dan status mahasiswa, serta switch-case-default untuk fokus program studi. Nilai programStudi yang dipakai adalah TI.
 
 ## Cara Menjalankan
 
@@ -29,9 +30,13 @@ Dokumentasi pengembangan halaman web pada P6, meliputi PHP dasar, variabel, kons
 - Tautan GitHub: mengklik tautan profil GitHub saya. Hasil aktual: membuka profil GitHub jordiketak.
 - Operator dengan semester 2: Hasil aktual: tampil "Sisa semester hingga batas: 6" dan "Pemeriksaan rentang semester: Sesuai rentang".
 - Operator dengan semester 9 (diubah sementara): Hasil aktual: tampil "Sisa semester hingga batas: -1" dan "Pemeriksaan rentang semester: Perlu diperiksa". Nilai semester dikembalikan ke 2 dan hasil kembali seperti semula.
+- if-elseif-else: semester 2 menampilkan "Semester: 2 (Semester awal)", semester 4 menampilkan "Semester menengah", semester 7 menampilkan "Semester akhir". Nilai semester dikembalikan ke 2.
+- Ternary program studi dan status: dengan TI dan aktif true tampil "Program Studi: Teknik Informatika (TI)" dan "Status mahasiswa: Aktif". Dengan SI dan aktif false tampil "Sistem Informasi (SI)" dan "Tidak aktif". Nilai dikembalikan ke TI dan true.
+- switch-case-default: TI menampilkan "Komputasi dan pengembangan perangkat lunak", SI menampilkan "Sistem informasi dan proses bisnis", MI menampilkan "Belum ditentukan". Nilai dikembalikan ke TI.
 
 ## Riwayat Pengembangan
 
 - Siapkan baseline P6 dan ubah index.html menjadi index.php: menyalin baseline P5, mengganti ekstensi, dan menguji akses lewat localhost.
 - Pengujian tag, komentar, echo, dan print PHP: menguji dasar PHP dan mencatat hasilnya.
 - Tampilkan data mahasiswa dengan variabel dan konstanta: menambahkan variabel, konstanta, dan keluaran dinamis di halaman.
+- Terapkan operator PHP untuk sisa dan status semester: menambahkan operator dan menguji hasilnya.
