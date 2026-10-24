@@ -10,6 +10,7 @@ Dokumentasi pengembangan halaman web pada P6, meliputi PHP dasar, variabel, kons
 - Dasar PHP: menguji tag PHP, komentar, echo, dan print menggunakan kode sementara di dalam body index.php. Kode sementara dihapus setelah pengujian.
 - Variabel dan konstanta: menambahkan blok PHP di awal index.php berisi variabel (nim, namaMahasiswa, programStudi, tahunAkademik, semester, ipk, statusAktif, catatanTambahan) dan konstanta (NAMA_MATA_KULIAH, PROFIL_GITHUB). Nilai ipk dan semester adalah data contoh dari modul, bukan data asli.
 - Konten dinamis: paragraf sapaan di bagian Selamat Datang menampilkan nama, nama mata kuliah, dan tahun akademik lewat PHP. Tautan GitHub di bagian Kontak memakai konstanta PROFIL_GITHUB.
+- Operator: menambahkan perhitungan sisa semester (operator aritmetika), pemeriksaan rentang semester (operator perbandingan dan logika), dan status semester (operator ternary). Hasilnya ditampilkan di bagian Profil Singkat.
 
 ## Cara Menjalankan
 
@@ -26,8 +27,11 @@ Dokumentasi pengembangan halaman web pada P6, meliputi PHP dasar, variabel, kons
 - Variabel dan konstanta: setelah blok PHP ditambahkan, halaman dimuat ulang. Hasil aktual: halaman tetap tampil.
 - Konten dinamis: Hasil aktual: paragraf sapaan menampilkan "Halo, saya Jordi Prayuda. Saya sedang mempelajari matakuliah Pemrograman Web Dasar pada tahun akademik 2026/2027."
 - Tautan GitHub: mengklik tautan profil GitHub saya. Hasil aktual: membuka profil GitHub jordiketak.
+- Operator dengan semester 2: Hasil aktual: tampil "Sisa semester hingga batas: 6" dan "Pemeriksaan rentang semester: Sesuai rentang".
+- Operator dengan semester 9 (diubah sementara): Hasil aktual: tampil "Sisa semester hingga batas: -1" dan "Pemeriksaan rentang semester: Perlu diperiksa". Nilai semester dikembalikan ke 2 dan hasil kembali seperti semula.
 
 ## Riwayat Pengembangan
 
 - Siapkan baseline P6 dan ubah index.html menjadi index.php: menyalin baseline P5, mengganti ekstensi, dan menguji akses lewat localhost.
 - Pengujian tag, komentar, echo, dan print PHP: menguji dasar PHP dan mencatat hasilnya.
+- Tampilkan data mahasiswa dengan variabel dan konstanta: menambahkan variabel, konstanta, dan keluaran dinamis di halaman.

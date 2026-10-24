@@ -11,6 +11,12 @@ $statusAktif = true;
 $catatanTambahan = null;
 const NAMA_MATA_KULIAH = "Pemrograman Web Dasar";
 const PROFIL_GITHUB = "jordiketak";
+
+// Bagian 2: Operator
+$batasSemester = 8;
+$sisaSemester = $batasSemester - $semester;
+$semesterValid = $semester >= 1 && $semester <= $batasSemester;
+$statusSemester = ($semesterValid && $statusAktif) ? "Sesuai rentang" : "Perlu diperiksa";
 ?><!DOCTYPE html>
 <html lang="id">
 
@@ -49,6 +55,8 @@ const PROFIL_GITHUB = "jordiketak";
       <h2>Tentang Saya</h2>
       <article>
         <h3>Profil Singkat</h3>
+        <p>Sisa semester hingga batas: <?php echo $sisaSemester; ?></p>
+<p>Pemeriksaan rentang semester: <?php echo $statusSemester; ?></p>
         <p>Saya mahasiswa Program Studi Teknik Informatika.</p>
         <h3>Target Belajar</h3>
         <ol>
