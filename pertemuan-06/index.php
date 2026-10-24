@@ -1,4 +1,17 @@
-<!DOCTYPE html>
+<?php
+// P6: PHP dasar dan pemrograman sisi peladen
+// Bagian 1: Variabel dan konstanta
+$nim = "2611500071";
+$namaMahasiswa = "Jordi Prayuda";
+$programStudi = "TI";
+$tahunAkademik = "2026/2027";
+$semester = 2;
+$ipk = 3.75;
+$statusAktif = true;
+$catatanTambahan = null;
+const NAMA_MATA_KULIAH = "Pemrograman Web Dasar";
+const PROFIL_GITHUB = "jordiketak";
+?><!DOCTYPE html>
 <html lang="id">
 
 <head>
@@ -29,8 +42,7 @@
   <main>
     <section id="home">
       <h2>Selamat Datang</h2>
-      <p>Halo, saya Jordi. Saya sedang mempelajari Pemrograman Web Dasar.</p>
-      <img src="img/foto-profil.jpg" alt="Foto profil Jordi">
+<p>Halo, saya <strong><?php echo $namaMahasiswa; ?></strong>. Saya sedang mempelajari matakuliah <strong><?php print NAMA_MATA_KULIAH; ?></strong> pada tahun akademik <?php echo $tahunAkademik; ?>.</p>      <img src="img/foto-profil.jpg" alt="Foto profil Jordi">
     </section>
 
     <section id="about">
@@ -49,8 +61,7 @@
 
     <section id="contact">
       <h2>Kontak</h2>
-      <p>Kunjungi <a href="https://github.com/jordiketak">profil GitHub saya</a>.</p>
-      <form id="contactForm" action="index.html" method="get" novalidate>
+<p>Kunjungi <a target="_blank" href="https://github.com/<?= PROFIL_GITHUB ?>">profil GitHub saya</a>.</p>      <form id="contactForm" action="index.html" method="get" novalidate>
         <div class="form-group">
           <label for="nama">Nama Lengkap</label><br />
           <input class="input-form" type="text" id="nama" name="nama" placeholder="Masukkan nama lengkap" minlength="3"
