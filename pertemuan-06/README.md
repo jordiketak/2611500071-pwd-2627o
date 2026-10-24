@@ -12,6 +12,7 @@ Dokumentasi pengembangan halaman web pada P6, meliputi PHP dasar, variabel, kons
 - Konten dinamis: paragraf sapaan di bagian Selamat Datang menampilkan nama, nama mata kuliah, dan tahun akademik lewat PHP. Tautan GitHub di bagian Kontak memakai konstanta PROFIL_GITHUB.
 - Operator: menambahkan perhitungan sisa semester (operator aritmetika), pemeriksaan rentang semester (operator perbandingan dan logika), dan status semester (operator ternary). Hasilnya ditampilkan di bagian Profil Singkat.
 - Percabangan: menambahkan if-elseif-else untuk keterangan semester, operator ternary untuk nama program studi dan status mahasiswa, serta switch-case-default untuk fokus program studi. Nilai programStudi yang dipakai adalah TI.
+- Perulangan: mengganti daftar Target Belajar statis dengan perulangan for (lima butir, memakai switch di dalamnya) dan menambahkan daftar Semester dengan perulangan while (tiga butir).
 
 ## Cara Menjalankan
 
@@ -33,6 +34,8 @@ Dokumentasi pengembangan halaman web pada P6, meliputi PHP dasar, variabel, kons
 - if-elseif-else: semester 2 menampilkan "Semester: 2 (Semester awal)", semester 4 menampilkan "Semester menengah", semester 7 menampilkan "Semester akhir". Nilai semester dikembalikan ke 2.
 - Ternary program studi dan status: dengan TI dan aktif true tampil "Program Studi: Teknik Informatika (TI)" dan "Status mahasiswa: Aktif". Dengan SI dan aktif false tampil "Sistem Informasi (SI)" dan "Tidak aktif". Nilai dikembalikan ke TI dan true.
 - switch-case-default: TI menampilkan "Komputasi dan pengembangan perangkat lunak", SI menampilkan "Sistem informasi dan proses bisnis", MI menampilkan "Belum ditentukan". Nilai dikembalikan ke TI.
+- Perulangan for: membuka halaman setelah daftar diganti. Hasil aktual: tampil lima butir, dari "Target belajar ke-1: Memahami sintaks dasar PHP." sampai "Target belajar ke-5: Belum dipetakan".
+- Perulangan while: membuka halaman setelah daftar ditambahkan. Hasil aktual: tampil tiga butir, Semester 1, Semester 2, dan Semester 3.
 
 ## Riwayat Pengembangan
 
@@ -40,3 +43,4 @@ Dokumentasi pengembangan halaman web pada P6, meliputi PHP dasar, variabel, kons
 - Pengujian tag, komentar, echo, dan print PHP: menguji dasar PHP dan mencatat hasilnya.
 - Tampilkan data mahasiswa dengan variabel dan konstanta: menambahkan variabel, konstanta, dan keluaran dinamis di halaman.
 - Terapkan operator PHP untuk sisa dan status semester: menambahkan operator dan menguji hasilnya.
+- Terapkan percabangan if, ternary, dan switch: menambahkan percabangan dan menguji setiap kondisi.

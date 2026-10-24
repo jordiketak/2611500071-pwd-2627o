@@ -84,12 +84,43 @@ switch ($programStudi) {
 <p>Fokus program studi: <?php echo $fokusProgramStudi; ?></p>
 <p>Status mahasiswa: <?php echo $statusAktif ? "Aktif" : "Tidak aktif"; ?></p>
         <p>Saya mahasiswa Program Studi Teknik Informatika.</p>
-        <h3>Target Belajar</h3>
-        <ol>
-          <li>Memahami struktur HTML5.</li>
-          <li>Menyusun halaman web semantik.</li>
-          <li>Memvalidasi dokumen HTML.</li>
-        </ol>
+        <h3>Target Belajar (Perulangan for)</h3>
+<ol>
+  <h3>Semester (Perulangan while):</h3>
+<ol>
+<?php
+$nomorSemester = 1;
+while ($nomorSemester <= 3) {
+    echo "<li>Semester " . $nomorSemester . "</li>";
+    $nomorSemester++;
+}
+?>
+</ol>
+<?php
+// Perulangan for tanpa array; materi larik dibahas pada P9.
+for ($i = 1; $i <= 5; $i++) {
+    echo "<li>Target belajar ke-" . $i . ": ";
+    switch ($i) {
+        case 1:
+            echo "Memahami sintaks dasar PHP.";
+            break;
+        case 2:
+            echo "Menggunakan variabel dan konstanta.";
+            break;
+        case 3:
+            echo "Menerapkan operator dan percabangan.";
+            break;
+        case 4:
+            echo "Menggunakan perulangan for dan while.";
+            break;
+        default:
+            echo "Belum dipetakan";
+            break;
+    }
+    echo "</li>";
+}
+?>
+</ol>
       </article>
     </section>
 
