@@ -82,20 +82,12 @@ switch ($programStudi) {
 <p>Semester: <?php echo $semester . " (" . $keteranganSemester . ")"; ?></p>
 <p>Program Studi: <?php echo $namaProdi . " (" . $programStudi . ")"; ?></p>
 <p>Fokus program studi: <?php echo $fokusProgramStudi; ?></p>
+<p>IPK: <?php echo number_format($ipk, 2, ',', '.'); ?></p>
+<p>Catatan tambahan: <?php echo $catatanTambahan === null ? "Belum ada" : $catatanTambahan; ?></p>
 <p>Status mahasiswa: <?php echo $statusAktif ? "Aktif" : "Tidak aktif"; ?></p>
         <p>Saya mahasiswa Program Studi Teknik Informatika.</p>
         <h3>Target Belajar (Perulangan for)</h3>
 <ol>
-  <h3>Semester (Perulangan while):</h3>
-<ol>
-<?php
-$nomorSemester = 1;
-while ($nomorSemester <= 3) {
-    echo "<li>Semester " . $nomorSemester . "</li>";
-    $nomorSemester++;
-}
-?>
-</ol>
 <?php
 // Perulangan for tanpa array; materi larik dibahas pada P9.
 for ($i = 1; $i <= 5; $i++) {
@@ -121,13 +113,23 @@ for ($i = 1; $i <= 5; $i++) {
 }
 ?>
 </ol>
+<h3>Semester (Perulangan while):</h3>
+<ol>
+<?php
+$nomorSemester = 1;
+while ($nomorSemester <= 3) {
+    echo "<li>Semester " . $nomorSemester . "</li>";
+    $nomorSemester++;
+}
+?>
+</ol>
       </article>
     </section>
 
     <section id="contact">
       <h2>Kontak</h2>
-<p>Kunjungi <a target="_blank" href="https://github.com/<?= PROFIL_GITHUB ?>">profil GitHub saya</a>.</p>      <form id="contactForm" action="index.html" method="get" novalidate>
-        <div class="form-group">
+<p>Kunjungi <a target="_blank" href="https://github.com/<?= PROFIL_GITHUB ?>">profil GitHub saya</a>.</p>
+<form id="contactForm" action="index.php" method="get" novalidate>        <div class="form-group">
           <label for="nama">Nama Lengkap</label><br />
           <input class="input-form" type="text" id="nama" name="nama" placeholder="Masukkan nama lengkap" minlength="3"
             maxlength="50" required />
@@ -179,8 +181,7 @@ for ($i = 1; $i <= 5; $i++) {
   </main>
 
   <footer>
-    <p>&copy; 2026 Jordi</p>
-  </footer>
+<p>&copy; <?= date("Y") ?> <?php echo $namaMahasiswa; ?> [<?= $nim ?>]</p>  </footer>
   <script src="script.js"></script>
 </body>
 

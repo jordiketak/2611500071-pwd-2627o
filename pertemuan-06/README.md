@@ -2,7 +2,7 @@
 
 ## Deskripsi
 
-Dokumentasi pengembangan halaman web pada P6, meliputi PHP dasar, variabel, konstanta, operator, percabangan, dan perulangan.
+Dokumentasi pengembangan halaman web pada P6, meliputi PHP dasar, variabel, konstanta, operator, percabangan, perulangan, fungsi bawaan, dan penyesuaian action formulir.
 
 ## Fitur dan Pengembangan
 
@@ -13,6 +13,8 @@ Dokumentasi pengembangan halaman web pada P6, meliputi PHP dasar, variabel, kons
 - Operator: menambahkan perhitungan sisa semester (operator aritmetika), pemeriksaan rentang semester (operator perbandingan dan logika), dan status semester (operator ternary). Hasilnya ditampilkan di bagian Profil Singkat.
 - Percabangan: menambahkan if-elseif-else untuk keterangan semester, operator ternary untuk nama program studi dan status mahasiswa, serta switch-case-default untuk fokus program studi. Nilai programStudi yang dipakai adalah TI.
 - Perulangan: mengganti daftar Target Belajar statis dengan perulangan for (lima butir, memakai switch di dalamnya) dan menambahkan daftar Semester dengan perulangan while (tiga butir).
+- Fungsi bawaan: menampilkan IPK dengan number_format(), memeriksa nilai NULL pada catatan tambahan, dan menampilkan tahun dengan date("Y") pada footer. Footer dan tautan GitHub memakai sintaks keluaran singkat.
+- Action formulir: mengubah atribut action pada formulir dari index.html menjadi index.php.
 
 ## Cara Menjalankan
 
@@ -36,6 +38,15 @@ Dokumentasi pengembangan halaman web pada P6, meliputi PHP dasar, variabel, kons
 - switch-case-default: TI menampilkan "Komputasi dan pengembangan perangkat lunak", SI menampilkan "Sistem informasi dan proses bisnis", MI menampilkan "Belum ditentukan". Nilai dikembalikan ke TI.
 - Perulangan for: membuka halaman setelah daftar diganti. Hasil aktual: tampil lima butir, dari "Target belajar ke-1: Memahami sintaks dasar PHP." sampai "Target belajar ke-5: Belum dipetakan".
 - Perulangan while: membuka halaman setelah daftar ditambahkan. Hasil aktual: tampil tiga butir, Semester 1, Semester 2, dan Semester 3.
+- number_format: Hasil aktual: tampil "IPK: 3,75".
+- Pemeriksaan NULL: dengan nilai null tampil "Catatan tambahan: Belum ada". Dengan nilai "Catatan praktik PHP" (diubah sementara) tampil "Catatan tambahan: Catatan praktik PHP". Nilai dikembalikan ke null dan tampil "Belum ada".
+- date() pada footer: Hasil aktual: footer menampilkan "© 2026 Jordi Prayuda [2611500071]".
+- Action formulir: setelah action diubah ke index.php, formulir dikirim dalam keadaan kosong. Hasil aktual: pesan validasi merah tampil dan alamat di peramban tidak berubah.
+
+## Galat dan Perbaikan
+
+- Urutan daftar: setelah menambahkan perulangan while, judul dan daftar Semester muncul di tengah daftar Target Belajar karena kode ditempel setelah tag pembuka ol, bukan setelah tag penutup. Perbaikan: mengganti seluruh area daftar dengan urutan yang benar (daftar for, lalu daftar while). Hasil pengujian ulang: Target Belajar menampilkan lima butir, lalu Semester menampilkan tiga butir.
+- Baris tautan dan form: tag form ikut menyatu dalam satu baris dengan paragraf tautan GitHub. Perbaikan: memisahkan menjadi dua baris saat mengubah action. Hasil pengujian ulang: tautan dan formulir tampil normal.
 
 ## Riwayat Pengembangan
 
@@ -44,3 +55,5 @@ Dokumentasi pengembangan halaman web pada P6, meliputi PHP dasar, variabel, kons
 - Tampilkan data mahasiswa dengan variabel dan konstanta: menambahkan variabel, konstanta, dan keluaran dinamis di halaman.
 - Terapkan operator PHP untuk sisa dan status semester: menambahkan operator dan menguji hasilnya.
 - Terapkan percabangan if, ternary, dan switch: menambahkan percabangan dan menguji setiap kondisi.
+- Terapkan perulangan for dan while: menambahkan dua daftar dinamis.
+- Tambah fungsi bawaan dan sesuaikan action formulir: menambahkan number_format, pemeriksaan null, date pada footer, dan mengubah action menjadi index.php.
