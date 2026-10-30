@@ -1,7 +1,7 @@
 <?php
 // P7: penggunaan GET
-if (isset($_GET['nama'])) {
-    $nama = $_GET['nama'];
+if (isset($_POST['nama'])) {
+    $nama = $_POST['nama'];
     echo "Nama yang diterima: " . htmlspecialchars($nama, ENT_QUOTES, 'UTF-8');
 }
 // P6: PHP dasar dan pemrograman sisi peladen
@@ -134,7 +134,7 @@ while ($nomorSemester <= 3) {
     <section id="contact">
       <h2>Kontak</h2>
 <p>Kunjungi <a target="_blank" href="https://github.com/<?= PROFIL_GITHUB ?>">profil GitHub saya</a>.</p>
-<form id="contactForm" action="index.php" method="get" novalidate>        <div class="form-group">
+<form id="contactForm" action="index.php" method="post" novalidate>        <div class="form-group">
           <label for="nama">Nama Lengkap</label><br />
           <input class="input-form" type="text" id="nama" name="nama" placeholder="Masukkan nama lengkap" minlength="3"
             maxlength="50" required />
