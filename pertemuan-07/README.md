@@ -15,6 +15,7 @@ Dokumentasi pengembangan halaman web pada P7, meliputi pengiriman formulir denga
 - Validasi sisi peladen: mengganti blok PHP di bagian atas index.php dengan normalisasi data memakai trim() dan (string), pemeriksaan kelengkapan, pemeriksaan format email dan semester (filter_var), serta pemeriksaan nilai pilihan (in_array) untuk jenis pesan, program studi, dan minat. Pesan kesalahan ditampung di variabel pesanKesalahan.
 - Pesan kesalahan: menampilkan pesanKesalahan di bawah judul Kontak dengan htmlspecialchars() dan kelas form-feedback-error.
 - Data yang diterima: menambahkan bagian "Data yang Diterima Peladen" setelah tag penutup form. Semua nilai ditampilkan dengan htmlspecialchars(), minat ditampilkan dengan foreach, dan pesan memakai nl2br().
+- Session dan PRG: menambahkan session_start() di awal index.php. Setelah validasi, pada permintaan POST data formulir dan pesan kesalahan disimpan ke $_SESSION, lalu halaman dialihkan ke index.php dengan header('Location: index.php') dan exit. Setelah redirect, data dibaca kembali dari $_SESSION. Kondisi bagian "Data yang Diterima Peladen" diubah dari pengecekan metode POST menjadi !empty($nama). Pesan kesalahan dihapus dari session dengan unset() setelah ditampilkan.
 
 ## Cara Menjalankan
 
@@ -44,13 +45,16 @@ Dokumentasi pengembangan halaman web pada P7, meliputi pengiriman formulir denga
 - script.js diaktifkan kembali: mengirim formulir kosong. Hasil aktual: halaman tidak dimuat ulang dan pesan JavaScript "Nama lengkap harus diisi 3 sampai 50 karakter." muncul di bawah tombol.
 - Data yang diterima: mengirim formulir dengan data valid. Hasil aktual: bagian "Data yang Diterima Peladen" tampil berisi nama, email, semester, tanggal kunjungan, jenis pesan, program studi, minat, dan pesan.
 - Pengamanan keluaran: mengisi pesan dengan <b>Mahasiswa</b> dan memilih minat HTML dan CSS. Hasil aktual: teks pesan tampil apa adanya sebagai <b>Mahasiswa</b> (tidak menjadi huruf tebal) dan minat menampilkan HTML dan CSS.
-- Belum diuji: validasi semester di luar rentang atau desimal pada sisi peladen.
+- Session dan PRG: mengirim formulir dengan data valid. Hasil aktual: halaman kembali ke index.php dan bagian "Data yang Diterima Peladen" tampil berisi data yang dikirim, tanpa error PHP.
+- Muat ulang setelah PRG (Ctrl+Shift+R): Hasil aktual: tidak muncul peringatan kirim ulang formulir, bagian "Data yang Diterima Peladen" tetap tampil, dan tidak ada error PHP.
+- Belum diuji: validasi semester di luar rentang atau desimal pada sisi peladen, dan tampilan pesan kesalahan PHP setelah redirect lewat session.
 
 ## Galat dan Perbaikan
 
 - Parse error: setelah blok PHP validasi ditempel, halaman menampilkan "Parse error: syntax error, unexpected token const" pada index.php. Penyebab: baris terakhir blok terpotong saat penempelan (berhenti pada $pesanKesalahan .=) dan menyatu dengan baris komentar di bawahnya, sehingga kurung kurawal penutup hilang. Perbaikan: mengganti baris yang terpotong dengan kode lengkap beserta kurung penutupnya. Hasil pengujian ulang: halaman tampil normal tanpa Parse error.
 - Formulir terhapus: saat menempel bagian "Data yang Diterima Peladen", formulir ikut terhapus karena teks hasil pencarian masih terpilih sehingga ketimpa. Perbaikan: mengembalikan index.php ke commit terakhir dengan git restore, lalu menempel ulang tanpa ada teks yang terpilih. Hasil pengujian ulang: formulir tampil utuh dan bagian data diterima tampil.
 - Ujung file terpotong: saat menempel kode data diterima, bagian akhir terpotong dan penutup file ikut rusak. Perbaikan: mengganti bagian dari "Pesan:" sampai akhir file dengan kode lengkap. Hasil pengujian ulang: halaman tampil normal.
+- Baris menyatu: saat mengganti kondisi menjadi !empty($nama), tag if dan judul h3 menyatu dalam satu baris. Perbaikan: memisahkannya dengan baris baru. Hasil pengujian ulang: halaman tampil normal.
 
 ## Riwayat Pengembangan
 
@@ -62,3 +66,4 @@ Dokumentasi pengembangan halaman web pada P7, meliputi pengiriman formulir denga
 - Menyesuaikan pembacaan input dan validasi formulir: menambahkan pembacaan input lain, minat[], dan selector JavaScript.
 - Menampilkan pesan kesalahan validasi PHP: menambahkan validasi sisi peladen dan menampilkan pesan kesalahan.
 - Mengamankan keluaran data formulir: menambahkan bagian data yang diterima dengan htmlspecialchars().
+- Menerapkan session dan pola PRG: menyimpan data ke session, redirect, dan membaca kembali dari session.

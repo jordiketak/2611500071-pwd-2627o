@@ -1,4 +1,5 @@
 <?php
+session_start();
 
 // P7: penggunaan POST (normalisasi data)
 $nama = trim((string) ($_POST['nama'] ?? ''));
@@ -121,6 +122,34 @@ switch ($programStudi) {
     default:
         $fokusProgramStudi = "Belum ditentukan";
 }
+
+// P7: simpan hasil ke session lalu redirect (PRG)
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $_SESSION['pesanKesalahan'] = $pesanKesalahan;
+
+    $_SESSION['nama'] = $nama;
+    $_SESSION['email'] = $email;
+    $_SESSION['semester'] = $semesterForm;
+    $_SESSION['tanggal'] = $tanggal;
+    $_SESSION['jenis_pesan'] = $jenisPesan;
+    $_SESSION['prodi'] = $prodi;
+    $_SESSION['minat'] = $minat;
+    $_SESSION['pesan'] = $pesan;
+
+    header('Location: index.php');
+    exit;
+}
+
+$pesanKesalahan = $_SESSION['pesanKesalahan'] ?? '';
+
+$nama = $_SESSION['nama'] ?? '';
+$email = $_SESSION['email'] ?? '';
+$semesterForm = $_SESSION['semester'] ?? '';
+$tanggal = $_SESSION['tanggal'] ?? date("Y-m-d");
+$jenisPesan = $_SESSION['jenis_pesan'] ?? '';
+$prodi = $_SESSION['prodi'] ?? '';
+$minat = $_SESSION['minat'] ?? '';
+$pesan = $_SESSION['pesan'] ?? '';
 ?><!DOCTYPE html>
 <html lang="id">
 
@@ -214,6 +243,7 @@ while ($nomorSemester <= 3) {
 <p class="form-feedback-error">
 <?= htmlspecialchars($pesanKesalahan, ENT_QUOTES, 'UTF-8') ?>
 </p>
+<?php unset($_SESSION['pesanKesalahan']); ?>
 <?php endif; ?>
 <p>Kunjungi <a target="_blank" href="https://github.com/<?= PROFIL_GITHUB ?>">profil GitHub saya</a>.</p>
 <form id="contactForm" action="index.php" method="post" novalidate>        <div class="form-group">
@@ -264,8 +294,8 @@ while ($nomorSemester <= 3) {
         <button type="reset">Batal</button>
         <p id="formFeedback"></p>
       </form>
-      <?php if ($_SERVER['REQUEST_METHOD'] === 'POST'): ?>
-<h3>Data yang Diterima Peladen</h3>
+<?php if (!empty($nama)): ?>
+    <h3>Data yang Diterima Peladen</h3>
 
 <p>Nama:
 <?= htmlspecialchars($nama, ENT_QUOTES, 'UTF-8') ?>
