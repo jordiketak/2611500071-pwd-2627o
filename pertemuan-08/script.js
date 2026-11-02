@@ -126,3 +126,88 @@ contactForms.forEach((contactForm) => {
     }
   });
 });
+
+// Validasi formulir Rencana Kegiatan Mahasiswa (UTS).
+const rencanaForms = document.querySelectorAll(
+  'form[data-validation="rencana"]',
+);
+
+rencanaForms.forEach((rencanaForm) => {
+  const feedback = rencanaForm.querySelector("[data-form-feedback]");
+  const penghitung = rencanaForm.querySelector("[data-char-count]");
+  const ambil = (nama) => rencanaForm.elements.namedItem(nama);
+  const deskripsiInput = ambil("deskripsi_kegiatan");
+
+  const bersihkanFeedback = () => {
+    if (feedback) {
+      feedback.textContent = "";
+      feedback.className = "form-feedback";
+    }
+  };
+
+  const perbaruiHitung = () => {
+    if (penghitung) {
+      penghitung.textContent = deskripsiInput.value.length + "/300";
+    }
+  };
+  perbaruiHitung();
+  deskripsiInput.addEventListener("input", perbaruiHitung);
+
+  rencanaForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+
+    const nama = ambil("nama_kegiatan").value.trim();
+    const kategori = ambil("kategori_kegiatan").value;
+    const tanggal = ambil("tanggal_kegiatan").value;
+    const lokasi = ambil("lokasi_kegiatan").value.trim();
+    const deskripsi = deskripsiInput.value.trim();
+
+    // Tanggal lokal hari ini (format YYYY-MM-DD).
+    const hariIni = new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
+      .toISOString()
+      .slice(0, 10);
+
+    const tampilkanKesalahan = (pesanKesalahan) => {
+      if (feedback) {
+        feedback.textContent = pesanKesalahan;
+        feedback.className = "form-feedback-error";
+      }
+    };
+
+    bersihkanFeedback();
+
+    if (nama.length < 3 || nama.length > 100) {
+      tampilkanKesalahan("Nama kegiatan harus diisi 3 sampai 100 karakter.");
+      return;
+    }
+    if (kategori === "") {
+      tampilkanKesalahan("Pilih kategori kegiatan.");
+      return;
+    }
+    if (tanggal === "") {
+      tampilkanKesalahan("Tanggal pelaksanaan harus diisi.");
+      return;
+    }
+    if (tanggal < hariIni) {
+      tampilkanKesalahan("Tanggal pelaksanaan tidak boleh di masa lalu.");
+      return;
+    }
+    if (lokasi.length < 3 || lokasi.length > 100) {
+      tampilkanKesalahan("Lokasi kegiatan harus diisi 3 sampai 100 karakter.");
+      return;
+    }
+    if (deskripsi.length < 10 || deskripsi.length > 300) {
+      tampilkanKesalahan("Deskripsi harus diisi 10 sampai 300 karakter.");
+      return;
+    }
+
+    rencanaForm.submit();
+  });
+
+  rencanaForm.addEventListener("reset", () => {
+    bersihkanFeedback();
+    if (penghitung) penghitung.textContent = "0/300";
+  });
+
+  rencanaForm.addEventListener("input", bersihkanFeedback);
+});
