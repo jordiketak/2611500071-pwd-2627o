@@ -113,7 +113,8 @@ section {
     border: 1px solid #e6e6e6;
 }
 
-#contact {
+#contact,
+#rencana {
     background-color: #f8fafc;
     border: 1px solid #cbd5e1;
     padding: 20px;
@@ -121,7 +122,8 @@ section {
     font-family: Arial, sans-serif;
 }
 
-#contact h2 {
+#contact h2,
+#rencana h2 {
     color: #003366;
     border-bottom: 2px solid #003366;
     padding-bottom: 6px;
@@ -132,7 +134,8 @@ section {
     margin: 12px 0;
 }
 
-#contact label {
+#contact label,
+#rencana label {
     color: #1f2937;
     font-weight: bold;
 }
@@ -147,7 +150,8 @@ section {
     border: 1px solid #94a3b8;
 }
 
-#contact button {
+#contact button,
+#rencana button {
     background-color: #003366;
     color: #ffffff;
     font-weight: bold;
@@ -168,11 +172,13 @@ section {
     line-height: 1.5;
 }
 
-#contact {
+#contact,
+#rencana {
     margin: 0;
 }
 
-#contact h2 {
+#contact h2,
+#rencana h2 {
     margin-top: 0;
 }
 
@@ -181,12 +187,14 @@ section {
     max-width: 100%;
 }
 
-#contact textarea {
+#contact textarea,
+#rencana textarea {
     min-height: 80px;
     resize: vertical;
 }
 
-#contact button {
+#contact button,
+#rencana button {
     cursor: pointer;
 }
 
@@ -252,7 +260,8 @@ footer p {
         gap: 16px;
     }
 
-    #contact {
+    #contact,
+    #rencana {
         grid-column: 1 / -1;
     }
 }
