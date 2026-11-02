@@ -1,5 +1,74 @@
 <?php
 session_start();
+date_default_timezone_set("Asia/Jakarta");
+
+function h($teks)
+{
+	return htmlspecialchars((string) $teks, ENT_QUOTES, "UTF-8");
+}
+
+const KATEGORI_KEGIATAN = ["Akademik", "Organisasi", "Olahraga", "Sosial", "Lainnya"];
+
+// UTS: memproses formulir Rencana Kegiatan Mahasiswa (POST -> validasi -> session -> redirect).
+if ($_SERVER["REQUEST_METHOD"] === "POST" && ($_POST["aksi"] ?? "") === "rencana") {
+	$rapikan = fn($v) => trim((string) preg_replace('/\s+/u', ' ', (string) $v));
+
+	$namaKegiatan = $rapikan($_POST["nama_kegiatan"] ?? "");
+	$kategori = $rapikan($_POST["kategori_kegiatan"] ?? "");
+	$tanggalKegiatan = trim((string) ($_POST["tanggal_kegiatan"] ?? ""));
+	$lokasi = $rapikan($_POST["lokasi_kegiatan"] ?? "");
+	$deskripsi = trim(str_replace(["\r\n", "\r"], "\n", (string) ($_POST["deskripsi_kegiatan"] ?? "")));
+	$deskripsi = (string) preg_replace("/\n{3,}/", "\n\n", $deskripsi);
+
+	$errors = [];
+
+	if (mb_strlen($namaKegiatan) < 3 || mb_strlen($namaKegiatan) > 100) {
+		$errors[] = "Nama kegiatan harus 3 sampai 100 karakter.";
+	}
+	if (!in_array($kategori, KATEGORI_KEGIATAN, true)) {
+		$errors[] = "Pilih kategori kegiatan yang tersedia.";
+	}
+	$tgl = DateTime::createFromFormat("Y-m-d", $tanggalKegiatan);
+	if (!$tgl || $tgl->format("Y-m-d") !== $tanggalKegiatan) {
+		$errors[] = "Tanggal pelaksanaan tidak valid.";
+	} elseif ($tanggalKegiatan < date("Y-m-d")) {
+		$errors[] = "Tanggal pelaksanaan tidak boleh di masa lalu.";
+	}
+	if (mb_strlen($lokasi) < 3 || mb_strlen($lokasi) > 100) {
+		$errors[] = "Lokasi kegiatan harus 3 sampai 100 karakter.";
+	}
+	if (mb_strlen($deskripsi) < 10 || mb_strlen($deskripsi) > 300) {
+		$errors[] = "Deskripsi kegiatan harus 10 sampai 300 karakter.";
+	}
+
+	$input = [
+		"nama" => $namaKegiatan,
+		"kategori" => $kategori,
+		"tanggal" => $tanggalKegiatan,
+		"lokasi" => $lokasi,
+		"deskripsi" => $deskripsi,
+	];
+
+	if ($errors) {
+		$_SESSION["rk_errors"] = $errors;
+		$_SESSION["rk_old"] = $input;
+	} else {
+		$daftar = $_SESSION["rk_daftar"] ?? [];
+		array_unshift($daftar, $input);
+		$_SESSION["rk_daftar"] = array_slice($daftar, 0, 5);
+		$_SESSION["rk_sukses"] = "Rencana kegiatan berhasil disimpan.";
+	}
+
+	// PRG: mencegah kirim ulang saat halaman di-refresh.
+	header("Location: index.php#rencana");
+	exit;
+}
+
+$rkErrors = $_SESSION["rk_errors"] ?? [];
+$rkOld = $_SESSION["rk_old"] ?? [];
+$rkSukses = $_SESSION["rk_sukses"] ?? "";
+$rkDaftar = $_SESSION["rk_daftar"] ?? [];
+unset($_SESSION["rk_errors"], $_SESSION["rk_old"], $_SESSION["rk_sukses"]);
 
 // P7: Memproses data formulir dan menyimpannya ke dalam session.
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
@@ -35,9 +104,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 // Mengamankan data sebelum ditampilkan kembali ke halaman HTML.
 // P6: PHP dasar dan pemrograman sisi peladen
 // Bagian 1: Variabel dan konstanta
-$nim = "0344300002";
-$namaMahasiswa = "Cantika Putih";
-$programStudi = "SI";
+$nim = "2611500071";
+$namaMahasiswa = "Jordi Prayuda";
+$programStudi = "TI";
 $tahunAkademik = "2026/2027";
 $semester = 4;
 $ipk = 3.75;
@@ -45,7 +114,7 @@ $statusAktif = true;
 $catatanTambahan = null;
 
 const NAMA_MATA_KULIAH = "Pemrograman Web Dasar";
-const PROFIL_GITHUB = "satpamal";
+const PROFIL_GITHUB = "Jordiketak";
 
 // Bagian 2: Operator
 $batasSemester = 8;
@@ -106,6 +175,7 @@ switch ($programStudi) {
 			<ul id="navMenu">
 				<li><a href="#home">Beranda</a></li>
 				<li><a href="#about">Tentang</a></li>
+				<li><a href="#rencana">Rencana Kegiatan</a></li>
 				<li><a href="#contact">Kontak</a></li>
 			</ul>
 		</nav>
@@ -173,6 +243,85 @@ switch ($programStudi) {
 				</ol>
 			</article>
 		</section>
+		<section id="rencana">
+	<h2>Rencana Kegiatan Mahasiswa</h2>
+
+	<?php if ($rkSukses !== ""): ?>
+		<p class="rk-sukses" role="status"><?= h($rkSukses) ?></p>
+	<?php endif; ?>
+
+	<?php if ($rkErrors): ?>
+		<div class="form-feedback-error" role="alert">
+			<ul>
+				<?php foreach ($rkErrors as $pesanError): ?>
+					<li><?= h($pesanError) ?></li>
+				<?php endforeach; ?>
+			</ul>
+		</div>
+	<?php endif; ?>
+
+	<form id="rencanaForm" class="js-rencana-form" data-validation="rencana" action="index.php" method="post" novalidate>
+		<input type="hidden" name="aksi" value="rencana" />
+
+		<div class="form-group">
+			<label for="rk-nama">Nama Kegiatan</label><br />
+			<input class="input-form" type="text" id="rk-nama" name="nama_kegiatan"
+				placeholder="Contoh: Seminar Web Programming" minlength="3" maxlength="100" required
+				value="<?= h($rkOld["nama"] ?? "") ?>" />
+		</div>
+
+		<div class="form-group">
+			<label for="rk-kategori">Kategori Kegiatan</label><br />
+			<select class="input-form" id="rk-kategori" name="kategori_kegiatan" required>
+				<option value="">-- Pilih Kategori --</option>
+				<?php foreach (KATEGORI_KEGIATAN as $kat): ?>
+					<option value="<?= h($kat) ?>" <?= (($rkOld["kategori"] ?? "") === $kat) ? "selected" : "" ?>><?= h($kat) ?></option>
+				<?php endforeach; ?>
+			</select>
+		</div>
+
+		<div class="form-group">
+			<label for="rk-tanggal">Tanggal Pelaksanaan</label><br />
+			<input class="input-form" type="date" id="rk-tanggal" name="tanggal_kegiatan"
+				min="<?= date("Y-m-d") ?>" required value="<?= h($rkOld["tanggal"] ?? "") ?>" />
+		</div>
+
+		<div class="form-group">
+			<label for="rk-lokasi">Lokasi Kegiatan</label><br />
+			<input class="input-form" type="text" id="rk-lokasi" name="lokasi_kegiatan"
+				placeholder="Contoh: LAB.3 ISB Atma Luhur" minlength="3" maxlength="100" required
+				value="<?= h($rkOld["lokasi"] ?? "") ?>" />
+		</div>
+
+		<div class="form-group">
+			<label for="rk-deskripsi">Deskripsi Kegiatan</label><br />
+			<textarea class="input-form" id="rk-deskripsi" name="deskripsi_kegiatan" maxlength="300"
+				placeholder="Jelaskan kegiatan Anda" required><?= h($rkOld["deskripsi"] ?? "") ?></textarea>
+			<small data-char-count>0/300</small>
+		</div>
+
+		<button type="submit">Kirim</button>
+		<button type="reset">Batal</button>
+		<p class="form-feedback" data-form-feedback aria-live="polite"></p>
+	</form>
+
+	<?php if ($rkDaftar): ?>
+		<div id="hasilRencana" class="submission-result" aria-live="polite">
+			<h3>Daftar Rencana Kegiatan</h3>
+			<?php foreach ($rkDaftar as $item): ?>
+				<article class="rk-item">
+					<h4>
+						<?= h($item["nama"]) ?>
+						<span class="rk-badge rk-<?= h(strtolower($item["kategori"])) ?>"><?= h($item["kategori"]) ?></span>
+					</h4>
+					<p><strong>Tanggal:</strong> <?= h(date("d-m-Y", strtotime($item["tanggal"]))) ?></p>
+					<p><strong>Lokasi:</strong> <?= h($item["lokasi"]) ?></p>
+					<p><strong>Deskripsi:</strong> <?= nl2br(h($item["deskripsi"])) ?></p>
+				</article>
+			<?php endforeach; ?>
+		</div>
+	<?php endif; ?>
+</section>
 
 		<section id="contact">
 			<h2>Kontak</h2>
