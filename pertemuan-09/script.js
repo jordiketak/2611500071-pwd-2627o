@@ -1,96 +1,128 @@
+// Navigasi responsif.
 const navToggle = document.getElementById("navToggle");
 const navMenu = document.getElementById("navMenu");
 
-navToggle.addEventListener("click", () => {
+if (navToggle && navMenu) {
+  navToggle.addEventListener("click", () => {
     const isOpen = navMenu.classList.toggle("nav-open");
-    navToggle.setAttribute("aria-expanded", isOpen);
+    navToggle.setAttribute("aria-expanded", String(isOpen));
+    navToggle.setAttribute(
+      "aria-label",
+      isOpen ? "Tutup navigasi" : "Buka navigasi",
+    );
+  });
+}
 
-    if (isOpen) {
-        navToggle.setAttribute("aria-label", "Tutup navigasi");
-    } else {
-        navToggle.setAttribute("aria-label", "Buka navigasi");
-    }
-});
+// Validasi formulir Kontak.
+// Selector menggunakan atribut/class, bukan ID formulir tertentu,
+// sehingga formulir lain dapat ditambahkan dengan ID yang berbeda.
+const contactForms = document.querySelectorAll(
+  'form[data-validation="contact"]',
+);
 
-const contactForm = document.getElementById("contactForm");
-const formFeedback = document.getElementById("formFeedback");
-const namaInput = document.getElementById("nama");
-const emailInput = document.getElementById("email");
-const semesterInput = document.getElementById("semester");
-const tanggalInput = document.getElementById("tanggal");
-const prodiInput = document.getElementById("prodi");
-const pesanInput = document.getElementById("pesan");
+contactForms.forEach((contactForm) => {
+  const formFeedback = contactForm.querySelector("[data-form-feedback]");
 
-contactForm.addEventListener("submit", (event) => {
+  const ambilInput = (nama) => contactForm.elements.namedItem(nama);
+
+  contactForm.addEventListener("submit", (event) => {
+    // Mencegah pengiriman otomatis sebelum seluruh validasi selesai.
     event.preventDefault();
-    formFeedback.className = "form-feedback-error";
+
+    const namaInput = ambilInput("nama");
+    const emailInput = ambilInput("email");
+    const semesterInput = ambilInput("semester");
+    const tanggalInput = ambilInput("tanggal");
+    const prodiInput = ambilInput("prodi");
+    const pesanInput = ambilInput("pesan");
+    const jenisPesan = contactForm.querySelector(
+      'input[name="jenis_pesan"]:checked',
+    );
+    const topikDipilih = contactForm.querySelectorAll(
+      'input[name="minat[]"]:checked',
+    );
 
     const nama = namaInput.value.trim();
-    if (nama.length < 3 || nama.length > 50) {
-        formFeedback.textContent = "Nama lengkap harus diisi 3 sampai 50 karakter.";
-        return;
+    const email = emailInput.value.trim();
+    const semester = Number(semesterInput.value);
+    const tanggal = tanggalInput.value;
+    const prodi = prodiInput.value;
+    const pesan = pesanInput.value.trim();
+
+    const tampilkanKesalahan = (pesanKesalahan) => {
+      if (formFeedback) {
+        formFeedback.textContent = pesanKesalahan;
+        formFeedback.className = "form-feedback-error";
+      }
+    };
+
+    if (formFeedback) {
+      formFeedback.textContent = "";
+      formFeedback.className = "form-feedback";
     }
 
-    const email = emailInput.value.trim();
+    if (nama.length < 3 || nama.length > 50) {
+      tampilkanKesalahan("Nama lengkap harus diisi 3 sampai 50 karakter.");
+      return;
+    }
+
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailPattern.test(email)) {
-        formFeedback.textContent = "Masukkan alamat email yang valid.";
-        return;
+      tampilkanKesalahan("Masukkan alamat email yang valid.");
+      return;
     }
 
-    const semester = Number(semesterInput.value);
-    if (semesterInput.value === "" || semester < 1 || semester > 14) {
-        formFeedback.textContent = "Semester harus diisi dengan angka 1 sampai 14.";
-        return;
+    if (
+      semesterInput.value.trim() === "" ||
+      !Number.isInteger(semester) ||
+      semester < 1 ||
+      semester > 14
+    ) {
+      tampilkanKesalahan("Semester harus diisi dengan angka 1 sampai 14.");
+      return;
     }
 
-    const tanggal = tanggalInput.value;
     if (tanggal === "") {
-        formFeedback.textContent = "Tanggal kunjungan harus diisi.";
-        return;
+      tampilkanKesalahan("Tanggal kunjungan harus diisi.");
+      return;
     }
 
-    const jenisPesan = document.querySelector(
-        'input[name="jenis_pesan"]:checked',
-    );
     if (!jenisPesan) {
-        formFeedback.textContent = "Pilih jenis pesan.";
-        return;
+      tampilkanKesalahan("Pilih jenis pesan.");
+      return;
     }
 
-    const topikDipilih = document.querySelectorAll(
-        'input[name="minat"]:checked, input[name="minat[]"]:checked',
-    ); if (topikDipilih.length === 0) {
-        formFeedback.textContent = "Pilih minimal satu topik yang diminati.";
-        return;
+    if (topikDipilih.length === 0) {
+      tampilkanKesalahan("Pilih minimal satu topik yang diminati.");
+      return;
     }
 
-    const prodi = prodiInput.value;
     if (prodi === "") {
-        formFeedback.textContent = "Pilih program studi.";
-        return;
+      tampilkanKesalahan("Pilih program studi.");
+      return;
     }
 
-    const pesan = pesanInput.value.trim();
-    if (pesan.length === 0) {
-        formFeedback.textContent = "Pesan harus diisi.";
-        return;
+    if (pesan.length === 0 || pesan.length > 300) {
+      tampilkanKesalahan("Pesan harus diisi dan maksimal 300 karakter.");
+      return;
     }
 
-    if (pesan.length > 300) {
-        formFeedback.textContent = "Pesan maksimal 300 karakter.";
-        return;
-    }
-
-    formFeedback.textContent = "Form berhasil divalidasi.";
-    formFeedback.className = "form-feedback-success";
+    // Mengirim formulir setelah seluruh validasi JavaScript berhasil.
+    // HTMLFormElement.submit() tidak memicu event submit kembali.
     contactForm.submit();
-});
+  });
 
-contactForm.addEventListener("reset", () => {
-    formFeedback.textContent = "";
-});
+  contactForm.addEventListener("reset", () => {
+    if (formFeedback) {
+      formFeedback.textContent = "";
+      formFeedback.className = "form-feedback";
+    }
+  });
 
-contactForm.addEventListener("input", () => {
-    formFeedback.textContent = "";
+  contactForm.addEventListener("input", () => {
+    if (formFeedback) {
+      formFeedback.textContent = "";
+      formFeedback.className = "form-feedback";
+    }
+  });
 });
